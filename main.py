@@ -56,6 +56,8 @@ if __name__ == '__main__':
     print()
     today = r.html.find('div#head div')[2]
     week = today.text[5]  # 这周的标识
+    day = today.text[12]
+    print(day)
     print(
         "----------------------------------------------------" + today.text + "----------------------------------------------------")
     # 所有课程
@@ -162,5 +164,5 @@ if __name__ == '__main__':
                     print(lesson[i][j] + "", end="")
         # 换行
         print()
-    print()
+    print("\t\t" + "\t\t\t" * (int(day) - 1) + "↑↑↑↑↑")
     input("~~~感受3G的魅力吧~~~")
