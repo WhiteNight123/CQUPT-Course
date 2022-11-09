@@ -53,13 +53,15 @@ if __name__ == '__main__':
     # 问候语
     print("~~~")
     print("你好呀,亲爱的" + r.html.find('div#head div')[1].text[33:] + "同学")
-    print()
     today = r.html.find('div#head div')[2]
-    week = today.text[5]  # 这周的标识
-    day = today.text[12]
-    print(day)
+    if today.text[6].isdigit():
+        week = today.text[5:7]  # 这周的标识
+        day = today.text[13]
+    else:
+        week = today.text[5]  # 这周的标识
+        day = today.text[12]
     print(
-        "----------------------------------------------------" + today.text + "----------------------------------------------------")
+        "-----------------------------------------------------" + today.text + "------------------------------------------------------")
     # 所有课程
     tmp = r.html.find('#stuPanel table tr td')
     courses = r.html.find('#stuPanel table tr td')[8:72]
@@ -76,7 +78,7 @@ if __name__ == '__main__':
             continue
         # 添加课程
         else:
-            # 改时间有多个课
+            # 该时间有多个课
             if len(x.absolute_links) > 1:
                 a = re.split("div", x.html)
                 k = 0  # a的索引指针
@@ -97,7 +99,7 @@ if __name__ == '__main__':
                                 replace("</font>", "").replace("<span style=\"color:#0000FF\">", ""). \
                                 replace("</span>", "")
                             a = a[18:38]
-
+                        a = test[0][18:]
                         lessonData.lessons[(i - 1) % 8].dayData[j].singleData.append(
                             SingleLessonData(test[0], test[1], test[2], test[0][18:], test[4], "", 0, ""))
                         k = k + 1
@@ -113,15 +115,17 @@ if __name__ == '__main__':
                         replace("</font>", "").replace("<span style=\"color:#0000FF\">", ""). \
                         replace("</span>", "")
                     re.sub("<(.*)>", a, "")
+                a = test[0][25:]
                 lessonData.lessons[(i - 1) % 8].dayData[j].singleData.append(
-                    SingleLessonData(test[0], test[1], test[2], test[0][25:], test[4], "", 0, ""))
+                    SingleLessonData(test[0], test[1], test[2], test[0][26:], test[4], "", 0, ""))
             i = i + 1
     # 打印星期
     print(end="\t\t")
     for x in weeks:
         print(x + "\t\t\t", end="")
     # 打印换行
-    print()
+    print(
+        "-----------------------------------------------------------------------------------------------------------------------")
 
     tmpData = [["" for i in range(8)] for j in range(5)]
     weekIndex = 0  # 指针,指向星期
@@ -164,5 +168,8 @@ if __name__ == '__main__':
                     print(lesson[i][j] + "", end="")
         # 换行
         print()
-    print("\t\t" + "\t\t\t" * (int(day) - 1) + "↑↑↑↑↑")
-    input("~~~感受3G的魅力吧~~~")
+        print(
+            "-------------------------------------------------------------------------------------------------------------------------------")
+    if int(day) < 5:
+        print("\t\t" + "\t\t\t" * (int(day) - 1) + "↑↑↑↑↑")
+    print("~~~感受3G的魅力吧~~~")
