@@ -9,3 +9,4 @@
 - requests_html 
 - dataclasses 
 
+注：Win11使用管理员打开bat，因为“MODE CON COLS，LINES”在Win11中失效
